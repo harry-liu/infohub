@@ -57,7 +57,7 @@ export async function GET() {
 
     // Translate descriptions to Chinese
     const translatedRepos = await Promise.all(
-      repositories.slice(0, 3).map(async (repo) => {
+      repositories.map(async (repo) => {
         try {
           const text = await translate(repo.description, { to: "zh-CN" });
           return {
