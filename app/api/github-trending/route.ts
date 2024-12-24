@@ -6,8 +6,6 @@ export const revalidate = 60;
 
 export async function GET() {
   try {
-    console.log("GET /api/github-trending");
-
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto("https://github.com/trending");

@@ -21,7 +21,6 @@ export async function translate(text: string, options: { to: string }) {
   });
 
   const result = await response.json();
-  console.log("result", result);
 
   return result.choices[0].message.content;
 }
