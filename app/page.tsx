@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { TrendingProject } from "@/libs/types";
+import { TrendingProject } from "@/lib/types";
 
 async function getTrendingProjects(): Promise<TrendingProject[]> {
   const res = await fetch("http://localhost:3000/api/github-trending");

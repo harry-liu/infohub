@@ -1,4 +1,5 @@
-import { translate } from "@/libs/utils";
+import { GetTrendingProjects, SaveTrendingProjects } from "@/lib/db/github";
+import { translate } from "@/lib/utils";
 import puppeteer from "puppeteer";
 // import { translate } from "@vitalets/google-translate-api";
 
@@ -6,6 +7,10 @@ export const revalidate = 60;
 
 export async function GET() {
   try {
+    const existingProjects = await GetTrendingProjects();
+    if (existingProjects) {
+      return Response.json(existingProjects);
+    }
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto("https://github.com/trending");
@@ -54,6 +59,7 @@ export async function GET() {
         };
       });
     });
+    await browser.close();
 
     // Translate descriptions to Chinese
     const translatedRepos = await Promise.all(
@@ -71,7 +77,8 @@ export async function GET() {
       })
     );
 
-    await browser.close();
+    SaveTrendingProjects(translatedRepos);
+
     return Response.json(translatedRepos);
   } catch (error) {
     return Response.json({ error }, { status: 500 });
