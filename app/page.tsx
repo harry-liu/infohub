@@ -20,6 +20,7 @@ async function TrendingProjects() {
           <a href={project.url} target="_blank" rel="noopener noreferrer">
             <h3 className="font-bold text-lg">{project.name}</h3>
             <p className="text-gray-600">{project.description}</p>
+            <p className="text-gray-600">{project.customDescription}</p>
             <div className="mt-2 flex items-center gap-4">
               <span>⭐ {project.stars}</span>
               <span>{project.language}</span>

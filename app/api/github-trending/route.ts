@@ -1,10 +1,13 @@
+import { translate } from "@/libs/utils";
 import puppeteer from "puppeteer";
-import { translate } from "@vitalets/google-translate-api";
+// import { translate } from "@vitalets/google-translate-api";
 
 export const revalidate = 60;
 
 export async function GET() {
   try {
+    console.log("GET /api/github-trending");
+
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto("https://github.com/trending");
@@ -56,12 +59,12 @@ export async function GET() {
 
     // Translate descriptions to Chinese
     const translatedRepos = await Promise.all(
-      repositories.map(async (repo) => {
+      repositories.slice(0, 3).map(async (repo) => {
         try {
-          const { text } = await translate(repo.description, { to: "zh-CN" });
+          const text = await translate(repo.description, { to: "zh-CN" });
           return {
             ...repo,
-            description: text,
+            customDescription: text,
           };
         } catch (error) {
           console.error(`Translation failed for ${repo.fullName}:`, error);
