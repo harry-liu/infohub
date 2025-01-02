@@ -1,46 +1,30 @@
-import { Suspense } from "react";
-import { TrendingProject } from "@/lib/types";
-
-async function getTrendingProjects(): Promise<TrendingProject[]> {
-  const res = await fetch("http://localhost:3000/api/github-trending");
-  if (!res.ok) throw new Error("Failed to fetch trending projects");
-  return res.json();
-}
-
-async function TrendingProjects() {
-  const projects = await getTrendingProjects();
-
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
-      {projects.map((project: TrendingProject) => (
-        <div
-          key={project.url}
-          className="border rounded-lg p-4 hover:shadow-lg transition-shadow"
-        >
-          <a href={project.url} target="_blank" rel="noopener noreferrer">
-            <h3 className="font-bold text-lg">{project.name}</h3>
-            <p className="text-gray-600">{project.description}</p>
-            <p className="text-gray-600">{project.customDescription}</p>
-            <div className="mt-2 flex items-center gap-4">
-              <span>⭐ {project.stars}</span>
-              <span>{project.language}</span>
-            </div>
-          </a>
-        </div>
-      ))}
-    </div>
-  );
-}
+import Link from "next/link";
+import { FaGithub, FaChartLine, FaCalculator } from "react-icons/fa";
 
 export default function Home() {
   return (
-    <div className="p-6">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <h1 className="text-3xl font-bold">GitHub Trending Projects</h1>
-        <Suspense fallback={<div>Loading trending projects...</div>}>
-          <TrendingProjects />
-        </Suspense>
-      </main>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-4xl mx-auto p-6">
+        <main className="flex flex-col gap-8 items-center sm:items-start">
+          <h1 className="text-4xl font-bold text-gray-800">Tools</h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+            <Link href="/github" className="w-full">
+              <button className="w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-800 font-semibold py-4 px-6 rounded-lg shadow-sm border border-gray-200 transition-colors">
+                <FaGithub className="text-xl" />
+                GitHub
+              </button>
+            </Link>
+            <button className="w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-800 font-semibold py-4 px-6 rounded-lg shadow-sm border border-gray-200 transition-colors">
+              <FaChartLine className="text-xl" />
+              Trending
+            </button>
+            <button className="w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-800 font-semibold py-4 px-6 rounded-lg shadow-sm border border-gray-200 transition-colors">
+              <FaCalculator className="text-xl" />
+              Tax
+            </button>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
