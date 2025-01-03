@@ -2,14 +2,13 @@ import { SaveNews } from "@/lib/db/news";
 import { News } from "@/lib/types";
 import puppeteer from "puppeteer";
 
-export const revalidate = 60;
-
 export async function GET() {
   try {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto("https://cn.investing.com/news/latest-news");
     let news: News[] = [];
+
     try {
       news = await page.evaluate(() => {
         const newsElements = document.querySelectorAll(
@@ -29,13 +28,13 @@ export async function GET() {
           };
         });
       });
+
+      SaveNews(news as News[]);
     } catch (error) {
       console.log("error", error);
     } finally {
       await browser.close();
     }
-
-    SaveNews(news as News[]);
 
     return Response.json(news);
   } catch (error) {

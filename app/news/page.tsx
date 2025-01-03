@@ -1,16 +1,39 @@
+"use client";
+
 import { News as NewsType } from "@/lib/types";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
+
+export async function fetchWithTimeout(
+  url: string,
+  options: RequestInit = {},
+  timeout = 50000
+) {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(id);
+  }
+}
 
 async function getNews(): Promise<NewsType[]> {
-  const res = await fetch("http://localhost:3000/api/news");
+  const res = await fetchWithTimeout("http://localhost:3000/api/news");
   if (!res.ok) {
     throw new Error("Failed to fetch news");
   }
   return res.json();
 }
 
-async function NewsList() {
-  const news = await getNews();
+function NewsList() {
+  const [news, setNews] = useState<NewsType[]>([]);
+  useEffect(() => {
+    const fetchNews = async () => {
+      const news = await getNews();
+      setNews(news);
+    };
+    fetchNews();
+  }, []);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
