@@ -3,7 +3,9 @@ import { Suspense } from "react";
 
 async function getNews(): Promise<NewsType[]> {
   const res = await fetch("http://localhost:3000/api/news");
-  if (!res.ok) throw new Error("Failed to fetch news");
+  if (!res.ok) {
+    throw new Error("Failed to fetch news");
+  }
   return res.json();
 }
 
@@ -33,7 +35,7 @@ export default function News() {
     <div className="p-6">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <h1 className="text-3xl font-bold">News</h1>
-        <Suspense fallback={<div>Loading trending projects...</div>}>
+        <Suspense fallback={<div>Loading news...</div>}>
           <NewsList />
         </Suspense>
       </main>

@@ -16,4 +16,5 @@ export interface News {
   url: string;
   source: string;
   summary: string;
+  date: string;
 }
