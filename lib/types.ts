@@ -10,3 +10,10 @@ export interface TrendingProject {
   starsToday: number;
   avatar?: string;
 }
+
+export interface News {
+  title: string;
+  url: string;
+  source: string;
+  summary: string;
+}

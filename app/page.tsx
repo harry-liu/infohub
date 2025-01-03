@@ -1,5 +1,10 @@
 import Link from "next/link";
-import { FaGithub, FaChartLine, FaCalculator } from "react-icons/fa";
+import {
+  FaGithub,
+  FaChartLine,
+  FaCalculator,
+  FaNewspaper,
+} from "react-icons/fa";
 
 export default function Home() {
   return (
@@ -14,10 +19,18 @@ export default function Home() {
                 GitHub
               </button>
             </Link>
-            <button className="w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-800 font-semibold py-4 px-6 rounded-lg shadow-sm border border-gray-200 transition-colors">
-              <FaChartLine className="text-xl" />
-              Trending
-            </button>
+            <Link href="/trading" className="w-full">
+              <button className="w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-800 font-semibold py-4 px-6 rounded-lg shadow-sm border border-gray-200 transition-colors">
+                <FaChartLine className="text-xl" />
+                Trading
+              </button>
+            </Link>
+            <Link href="/news" className="w-full">
+              <button className="w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-800 font-semibold py-4 px-6 rounded-lg shadow-sm border border-gray-200 transition-colors">
+                <FaNewspaper className="text-xl" />
+                News
+              </button>
+            </Link>
             <button className="w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-800 font-semibold py-4 px-6 rounded-lg shadow-sm border border-gray-200 transition-colors">
               <FaCalculator className="text-xl" />
               Tax

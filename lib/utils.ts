@@ -24,3 +24,8 @@ export async function translate(text: string, options: { to: string }) {
 
   return result.choices[0].message.content;
 }
+
+export function getTodayTimestamp(): string {
+  const date = new Date();
+  return date.toISOString().split("T")[0]; // Get only the date part
+}

@@ -2,11 +2,7 @@
 
 import { getCollection } from "./mongoDB";
 import { TrendingProject } from "../types";
-
-function getTodayTimestamp(): string {
-  const date = new Date();
-  return date.toISOString().split("T")[0]; // Get only the date part
-}
+import { getTodayTimestamp } from "../utils";
 
 export async function SaveTrendingProjects(projects: TrendingProject[]) {
   const timestamp = getTodayTimestamp();
@@ -26,6 +22,6 @@ export async function SaveTrendingProjects(projects: TrendingProject[]) {
 export async function GetTrendingProjects() {
   const timestamp = getTodayTimestamp();
   const projectsCollection = await getCollection("trendingProjects");
-  const projects = await projectsCollection.find({ timestamp }).toArray();
-  return projects[0]?.projects;
+  const projects = await projectsCollection.findOne({ timestamp });
+  return projects?.projects;
 }
